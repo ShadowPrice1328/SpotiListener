@@ -1,4 +1,4 @@
 # SpotiListener
 Informations about me and what am I listening to.
 
-![image](https://github.com/ShadowPrice1328/SpotiListener/assets/60846759/dc3de5ba-3986-4c39-96db-c7059c3d5ab4)
+![ezgif-4-0058eb0d19](https://github.com/ShadowPrice1328/SpotiListener/assets/60846759/080c682d-a0d6-458d-b0ce-a120c802313e)
