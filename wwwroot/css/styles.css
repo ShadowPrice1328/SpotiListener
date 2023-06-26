@@ -1,0 +1,65 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Set the body height to full viewport height */
+    background-image: url('https://i.gifer.com/SA8y.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.track-photo {
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+}
+h3, h2, h4 {
+    color: ghostwhite;
+    opacity: 0.7;
+    margin-left: 20px;
+    line-height: 10px;
+}
+
+.info-frame {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    overflow: hidden;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    height: 220px;
+    border: solid grey 1px;
+    border-right: none;
+    border-bottom: none;
+    opacity: 80%;
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    box-shadow: 5px 5px 5px ghostwhite;
+}
+
+.photo {
+    padding-left: 10px;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.song {
+    flex-grow: 1;
+    grid-area: 2 / 1 / 3 / 5;
+    font-style: italic;
+}
+
+.abtme {
+    grid-area: 1 / 2 / 2 / 4;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.dyke {
+    padding-right: 20px;
+    grid-area: 1 / 4 / 2 / 5;
+}
