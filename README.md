@@ -1,5 +1,5 @@
 # SpotiListener
 Information about me and what am I listening to.
 
-![ezgif-4-0058eb0d19](https://github.com/ShadowPrice1328/SpotiListener/assets/60846759/080c682d-a0d6-458d-b0ce-a120c802313e) <br>
+![Status](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmx2MDkxMmZoYzE2MTN6emNheGVmZ3J4aWl5a3NlZDZ1NHNpcjdyNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mIGKOaglYgkMIBGV1T/giphy.gif) <br>
 _25.06.2023 - 26.06.2023_
