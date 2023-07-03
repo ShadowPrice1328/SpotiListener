@@ -9,13 +9,12 @@ namespace SpotiListener.Pages
     public partial class Index : IDisposable
     {
         [Inject]
-        public IndexApiService ApiService { get; set; }
+        public required IndexApiService ApiService { get; set; }
 
         private string trackName = "nothing...";
         private string artistName = "nobody...";
-        private string songPhoto;
 
-        private Timer timer;
+        private Timer? timer;
 
         protected override async Task OnInitializedAsync()
         {
@@ -34,19 +33,18 @@ namespace SpotiListener.Pages
         private async Task UpdateTrackName()
         {
             var trackInfo = await ApiService.GetCurrentPlayingTrack();
+
             if (trackInfo != null)
             {
                 trackName = trackInfo.TrackName;
                 artistName = trackInfo.ArtistName;
-                songPhoto = trackInfo.SongPhoto;
             }
             else
             {
                 trackName = "nothing...";
                 artistName = "nobody...";
-                songPhoto = "";
             }
-            InvokeAsync(StateHasChanged);
+            await InvokeAsync(StateHasChanged);
         }
 
         public void Dispose()
