@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>wwwroot\ua-flag.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
