@@ -10,7 +10,7 @@
     background-size: cover;
 }
 
-.track-photo {
+.my-photo {
     padding: 10px;
     width: 125px;
     height: 125px;
@@ -19,7 +19,7 @@
 h3, h2 {
     color: ghostwhite;
     opacity: 0.7;
-    margin-left: 30px;
+    margin-left: 20px;
     line-height: 12px;
     font-size: x-large;
 }
@@ -64,6 +64,7 @@ h4 {
 }
 
 .abtme {
+
     grid-area: 1 / 2 / 1 / 4;
     white-space: nowrap;
     text-align: center;
