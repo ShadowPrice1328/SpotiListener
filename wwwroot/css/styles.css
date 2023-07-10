@@ -4,22 +4,32 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Set the body height to full viewport height */
+    min-height: 100vh;
     background-image: url('https://i.gifer.com/SA8y.gif');
-    background-repeat: no-repeat;
+    background-repeat: revert-layer;
     background-size: cover;
 }
 
-.track-photo {
-    margin-top: 10px;
-    width: 100px;
-    height: 100px;
+.my-photo {
+    padding: 10px;
+    width: 125px;
+    height: 125px;
 }
-h3, h2, h4 {
+
+h3, h2 {
     color: ghostwhite;
     opacity: 0.7;
     margin-left: 20px;
-    line-height: 10px;
+    line-height: 12px;
+    font-size: x-large;
+}
+
+h4 {
+    color: ghostwhite;
+    opacity: 0.7;
+    margin-left: 30px;
+    line-height: 12px;
+    font-size: medium;
 }
 
 .info-frame {
@@ -29,10 +39,9 @@ h3, h2, h4 {
     grid-column-gap: 10px;
     grid-row-gap: 10px;
     overflow: hidden;
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    height: 220px;
+    padding: 30px;
+    max-width: 625px;
+    height: 275px;
     border: solid grey 1px;
     border-right: none;
     border-bottom: none;
@@ -44,22 +53,34 @@ h3, h2, h4 {
 
 .photo {
     padding-left: 10px;
-    grid-area: 1 / 1 / 2 / 2;
+    grid-area: 1 / 1 / 1 / 1;
 }
 
 .song {
     flex-grow: 1;
-    grid-area: 2 / 1 / 3 / 5;
+    grid-area: 2 / 1 / 2 / 4;
     font-style: italic;
+    white-space: nowrap;
 }
 
 .abtme {
-    grid-area: 1 / 2 / 2 / 4;
+
+    grid-area: 1 / 2 / 1 / 4;
     white-space: nowrap;
     text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .dyke {
-    padding-right: 20px;
-    grid-area: 1 / 4 / 2 / 5;
+    padding-top: 20px;
+    white-space: nowrap;
+    grid-area: 1 / 4 / 2 / 4;
+}
+
+.names {
+    font-style: italic;
+    text-decoration: underline;
 }
