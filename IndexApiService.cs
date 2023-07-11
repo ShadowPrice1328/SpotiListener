@@ -35,19 +35,6 @@ namespace SpotiListener
             tokenExpiration = DateTime.MinValue;
         }
 
-        public async Task<string> GetTrack()
-        {
-            try
-            {
-                var track = await spotify.Tracks.Get("1s6ux0lNiTziSrd7iUAADH");
-                return track.Name;
-            }
-            catch (Exception)
-            {
-                return "Track not found!";
-            }
-        }
-
         public string GetToken()
         {
             if (string.IsNullOrEmpty(accessToken) || DateTime.Now >= tokenExpiration)
