@@ -5,6 +5,9 @@
 
 bin/
 
+.vscode/
+.config
+
 # User-specific files
 *.rsuser
 *.suo

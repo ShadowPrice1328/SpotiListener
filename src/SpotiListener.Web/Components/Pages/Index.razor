@@ -1,11 +1,7 @@
-﻿@page "/"
+@page "/"
 @page "/home"
 
 <PageTitle>@pageTitle</PageTitle>
-
-@code{
-    string pageTitle = "@ihatemyspine's status";
-}
 
 <div class="info-frame">
     <div class="photo">
@@ -22,3 +18,9 @@
         <h3>C# Developer</h3>
     </div>
 </div>
+
+@code {
+    private string pageTitle = "@ihatemyspine's status";
+    private string trackName = "nothing...";
+    private string artistName = "nobody...";
+}
