@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @implements IAsyncDisposable
 
+@using System.Globalization
 @using System.Net
 @using System.Net.Http.Json
 @using SpotiListener.Core.Models
@@ -12,20 +13,24 @@
 
 <div class="info-frame">
     <div class="photo">
-        <a href="https://savelife.in.ua/en/"><img src="https://i.ibb.co/BNhj7Ly/main.webp" class="my-photo"></a>
+        <a href="https://savelife.in.ua/en/"><img src="https://avatars.githubusercontent.com/u/60846759?v=4" class="my-photo"></a>
     </div>
     <div class="song">
-        <h2>Listens to ---------</h2>
+        <h2 class="spotify-title">
+            Listens to <span></span>
+        </h2>
         @if (_track is not null)
         {
             @if (HasAlbumCover())
             {
-                <imf src = "@_track.SongPhoto" alt="(@_track.AlbumName) album cover" class="album-cover" />
+                <img src = "@_track.SongPhoto" alt="@_track.ArtistName's '@_track.AlbumName' album cover" class="album-cover" />
             }
 
-            <h3>Track: <span class="names">@_track.TrackName</span></h3>
-            <h3>Artist: <span class="names">@_track.ArtistName</span></h3>
-            <h3>Album: <span class="names">@_track.AlbumName</span></h3>
+            <div class="track-details">
+                <h3>Track: <span class="names">@_track.TrackName</span></h3>
+                <h3>Artist: <span class="names">@_track.ArtistName</span></h3>
+                <h3>Album: <span class="names">@_track.AlbumName</span></h3>
+            </div>
         }
         else
         {
@@ -34,13 +39,36 @@
     </div>
     
     <div class="abtme">
-        <h3>Anna 18 Ukraine</h3>
-        <h3>[ESTJ] Winter enjoyer</h3>
-        <h3>C# Developer</h3>
+        <h2>Anna, @GetAge(new DateOnly(2004, 8, 15))</h2>
+        <p>.NET Developer</p>
+        <p>[ISTJ] · Winter enjoyer</p>
     </div>
 </div>
+
+<a class="github-link"
+       href="https://github.com/ShadowPrice1328"
+       target="_blank"
+       rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" width="24" height="24"
+         fill="currentColor" aria-hidden="true">
+        <path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.07c-3.1.67-3.76-1.32-3.76-1.32-.5-1.29-1.24-1.63-1.24-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.7 2.62 1.21 3.26.92.1-.72.39-1.21.71-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.15a10.6 10.6 0 0 1 5.55 0c2.11-1.45 3.05-1.15 3.05-1.15.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.29-2.62 5.23-5.11 5.51.4.35.76 1.03.76 2.08V22c0 .29.2.63.77.52A11.1 11.1 0 0 0 12 .9Z"/>
+    </svg>
+    <span>GitHub</span>
+</a>
+
 @code {
 
+    private static int GetAge(DateOnly birthDate)
+    {
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        var age = today.Year - birthDate.Year;
+
+        if (today < birthDate.AddYears(age))
+            age--;
+
+        return age;
+    }
     private readonly CancellationTokenSource _cts = new();
 
     private Track? _track;
@@ -50,6 +78,7 @@
 
     private Task? _pollingTask;
 
+    private HttpClient _client = default!;
     private bool HasAlbumCover()
     {
         return Uri.TryCreate(_track?.SongPhoto, UriKind.Absolute, out var uri)
@@ -58,6 +87,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _client = HttpClientFactory.CreateClient("Agent");
+
         await RefreshTrackAsync(_cts.Token);
         _pollingTask = PollTrackAsync(_cts.Token);
     }
@@ -66,9 +97,7 @@
     {
         try
         {
-            var client = HttpClientFactory.CreateClient("Agent");
-
-            using var response = await client.GetAsync("/api/track", cancellationToken);
+            using var response = await _client.GetAsync("/api/track", cancellationToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
