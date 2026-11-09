@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+    <interface name="org.mpris.MediaPlayer2.Player">
+        <property name="PlaybackStatus" type="s" access="read"/>
+        <property name="Metadata" type="a{sv}" access="read"/>
+    </interface>
+</node>

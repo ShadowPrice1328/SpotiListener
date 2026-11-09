@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpotiListener.Core\SpotiListener.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Tmds.DBus.Generator" Version="0.95.2" />
+    <PackageReference Include="Tmds.DBus.Protocol" Version="0.95.2" />
+  </ItemGroup>
+
+   <ItemGroup>
+    <AdditionalFiles
+        Include="dbus-xml/org.mpris.MediaPlayer2.Player.xml"
+        Namespace="SpotiListener.Mpris.DBus"
+        DBusGeneratorMode="Proxy" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
