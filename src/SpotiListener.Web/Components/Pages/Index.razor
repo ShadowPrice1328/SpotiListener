@@ -1,5 +1,12 @@
 @page "/"
-@page "/home"
+@rendermode InteractiveServer
+@implements IAsyncDisposable
+
+@using System.Net
+@using System.Net.Http.Json
+@using SpotiListener.Core.Models
+
+@inject IHttpClientFactory HttpClientFactory
 
 <PageTitle>@pageTitle</PageTitle>
 
@@ -9,9 +16,23 @@
     </div>
     <div class="song">
         <h2>Listens to ---------</h2>
-        <h3>Track: <span class="names">@trackName</span></h3>
-        <h3>Artist: <span class="names">@artistName</span></h3>
+        @if (_track is not null)
+        {
+            @if (HasAlbumCover())
+            {
+                <imf src = "@_track.SongPhoto" alt="(@_track.AlbumName) album cover" class="album-cover" />
+            }
+
+            <h3>Track: <span class="names">@_track.TrackName</span></h3>
+            <h3>Artist: <span class="names">@_track.ArtistName</span></h3>
+            <h3>Album: <span class="names">@_track.AlbumName</span></h3>
+        }
+        else
+        {
+            <h3>@_status</h3>
+        }
     </div>
+    
     <div class="abtme">
         <h3>Anna 18 Ukraine</h3>
         <h3>[ESTJ] Winter enjoyer</h3>
@@ -19,7 +40,80 @@
     </div>
 </div>
 @code {
+
+    private readonly CancellationTokenSource _cts = new();
+
+    private Track? _track;
+    private string _status = "Connecting to Spotify...";
+
     private string pageTitle = "@ihatemyspine's status";
-    private string trackName = "nothing...";
-    private string artistName = "nobody...";
+
+    private Task? _pollingTask;
+
+    private bool HasAlbumCover()
+    {
+        return Uri.TryCreate(_track?.SongPhoto, UriKind.Absolute, out var uri)
+            && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshTrackAsync(_cts.Token);
+        _pollingTask = PollTrackAsync(_cts.Token);
+    }
+
+    private async Task RefreshTrackAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var client = HttpClientFactory.CreateClient("Agent");
+
+            using var response = await client.GetAsync("/api/track", cancellationToken);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _track = null;
+                _status = "Nothing is playing...";
+                return;
+            }
+
+            response.EnsureSuccessStatusCode();
+
+            _track = await response.Content.ReadFromJsonAsync<Track>(cancellationToken: cancellationToken);
+
+            _status = _track is null
+                ? "Nothing is playing..."
+                : string.Empty;
+        }
+        catch (HttpRequestException)
+        {
+            _track = null;
+            _status = "Agent is unavailable.";
+        }
+    }
+
+    private async Task PollTrackAsync(CancellationToken cancellationToken)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(3));
+
+        try
+        {
+            while (await timer.WaitForNextTickAsync(cancellationToken))
+            {
+                await RefreshTrackAsync(cancellationToken);
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (OperationCanceledException) { }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _cts.Cancel();
+
+        if (_pollingTask is not null)
+            await _pollingTask;
+
+        _cts.Dispose();
+    }
 }

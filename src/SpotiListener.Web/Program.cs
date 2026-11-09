@@ -6,6 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient("Agent", client =>
+{
+   var baseUrl = builder.Configuration["Agent:BaseUrl"]
+       ?? throw new InvalidOperationException("Agent URL is not configured.\n");
+
+   client.BaseAddress = new Uri(baseUrl);
+   client.Timeout = TimeSpan.FromSeconds(5); 
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

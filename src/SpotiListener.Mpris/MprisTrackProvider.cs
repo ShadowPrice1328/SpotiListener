@@ -14,7 +14,7 @@ public sealed class MprisTrackProvider : ICurrentTrackProvider
         cancellationToken.ThrowIfCancellationRequested();
 
         var address = DBusAddress.Session ??
-            throw new InvalidOperationException("Session D-Bus address is not available.");
+            throw new InvalidOperationException("Session D-Bus address is not available.\n");
 
         using var connection = new DBusConnection(address);
         await connection.ConnectAsync();
@@ -22,7 +22,7 @@ public sealed class MprisTrackProvider : ICurrentTrackProvider
         var services = await connection.ListServicesAsync();
 
         if (!services.Contains(SpotifyService))
-            throw new InvalidOperationException($"SpotifyService \"{SpotifyService}\" is not present on the list.");
+            throw new InvalidOperationException($"SpotifyService \"{SpotifyService}\" is not present on the list.\n");
 
         var player =  new Player(connection, SpotifyService, PlayerPath);
 
