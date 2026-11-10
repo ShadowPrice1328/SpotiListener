@@ -118,6 +118,7 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: clamp(12px, 2vw, 18px);
+    user-select: none;
 }
 
 h2, h3 {
@@ -129,6 +130,8 @@ h2, h3 {
 
 .names {
     font-style: italic;
+    cursor: text;
+    user-select: text;
 }
 
 @media only screen and (max-width: 480px) {
