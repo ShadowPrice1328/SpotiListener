@@ -3,6 +3,9 @@
 A personal listening status page that displays information about me and
 the music currently playing in Spotify.
 
+## Preview
+![Project preview](src/SpotiListener.Web/wwwroot/gif/preview.gif)
+
 ## Features
 
 -  Current track, artist and album information.
