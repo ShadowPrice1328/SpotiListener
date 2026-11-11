@@ -57,4 +57,32 @@ dotnet run --project src/SpotiListener.Web
 Make sure the Agent URL in the Web application's configuration matches
 the address and port on which the Agent is listening.
 
+## Docker (Containerized Setup)
+### 1. Run the Agent (Host Machine)
+
+The Agent must run natively on your Linux host to access the active session's D-Bus socket for Spotify:
+
+```bash
+dotnet run --project src/SpotiListener.Agent
+```
+The Agent will start listening on http://0.0.0.0:5055.
+
+### 2. Run the Web Application (Docker)
+Launch the Blazor Web interface using Docker Compose:
+
+```bash
+docker compose up --build -d
+```
+
+The Web UI will be available at http://localhost:8080.
+
+**Note**: The Web container uses host.docker.internal to communicate with the Agent running on port 5055 of your host OS.
+
+## Environment Variables
+
+| Variable | Description | Default |
+| :--- | :---: | ---: |
+| ASPNETCORE_HTTP_PORTS | HTTP port exposed inside the Docker container | 8080 |
+| Agent__BaseUrl | URL used by the Web UI to contact the Agent | http://host.docker.internal:5055 |
+
 ------------------------------------------------------------------------
